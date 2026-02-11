@@ -79,7 +79,7 @@ button {
   background-size: min(70vw, 70vh);
   background-attachment: fixed;
   mix-blend-mode: multiply;
-  opacity: 0.03;
+  opacity: 0.1;
 }
 
 /* Custom Scrollbar */

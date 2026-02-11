@@ -9,6 +9,19 @@ const Kiosk = () => {
     const [message, setMessage] = useState('Align QR Code within the frame to pick up your order.');
     const [dispensedOrder, setDispensedOrder] = useState(null);
 
+    useEffect(() => {
+        const checkCapabilities = async () => {
+            if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') {
+                setErrorState("Security Lockdown: Webcam requires an HTTPS connection to operate.");
+                return;
+            }
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                setErrorState("Hardware Error: This browser does not support webcam access.");
+            }
+        };
+        checkCapabilities();
+    }, []);
+
     const handleScan = async (detectedCodes) => {
         if (detectedCodes && detectedCodes.length > 0 && status === 'scanning') {
             const data = detectedCodes[0];

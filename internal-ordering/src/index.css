@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+@theme {
+  --color-umbrella-red: #DC0000;
+  --color-umbrella-accent: #FF0000;
+  --color-umbrella-white: #FFFFFF;
+  --color-umbrella-silver: #666666;
+  --color-umbrella-black: #000000;
+  --color-umbrella-dark: #F5F5F5;
+}
+
+html {
+  font-size: 125%;
+}
+
+:root {
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light;
+  color: #000000;
+  background-color: #FFFFFF;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-content: center;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #FFFFFF;
+  color: #000000;
+}
+
+#root {
+  width: 100%;
+}
+
+@layer base {
+  button {
+    @apply transition-all duration-200 active:scale-95 touch-manipulation;
+  }
+
+  .umbrella-bg {
+    background-image: url("/umbrella-bg.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: min(70vw, 70vh);
+    background-attachment: fixed;
+    mix-blend-mode: multiply;
+    opacity: 0.05;
+  }
+}
+
+/* ENFORCE PURE BLACK TEXT GLOBALLY (EXCEPT NAV) */
+body *:not(header *):not(header) {
+  color: #000000;
+}
+
+main *,
+footer *,
+[role="dialog"] *,
+.fixed.inset-0:not(header *) * {
+  color: #000000 !important;
+}
+
+svg:not(header *) {
+  color: #000000 !important;
+}
+
+/* DYNAMIC HOVER: FLIP BLACK TEXT TO WHITE ON DARK RED/BLACK BACKGROUNDS */
+*:hover[class*="hover:bg-umbrella-red"],
+*:hover[class*="hover:bg-black"],
+*:hover[class*="hover:bg-red-500"],
+*:hover[class*="hover:bg-red-600"],
+*:hover[class*="hover:bg-red-700"],
+*:hover[class*="hover:bg-red-800"],
+*:hover[class*="hover:bg-red-900"],
+*:hover[class*="hover:bg-slate-900"],
+*:hover[class*="hover:bg-slate-800"],
+button[class*="hover:bg-black"]:hover,
+button[class*="hover:bg-umbrella-red"]:hover {
+  color: #FFFFFF !important;
+}
+
+*:hover[class*="hover:bg-umbrella-red"] *,
+*:hover[class*="hover:bg-black"] *,
+*:hover[class*="hover:bg-red-500"] *,
+*:hover[class*="hover:bg-red-600"] *,
+*:hover[class*="hover:bg-red-700"] *,
+*:hover[class*="hover:bg-red-800"] *,
+*:hover[class*="hover:bg-red-900"] *,
+*:hover[class*="hover:bg-slate-900"] *,
+*:hover[class*="hover:bg-slate-800"] *,
+button[class*="hover:bg-black"]:hover *,
+button[class*="hover:bg-umbrella-red"]:hover * {
+  color: #FFFFFF !important;
+}
+
+
+/* Maintain visibility for red buttons */
+button.bg-umbrella-red,
+button[class*="bg-red"],
+.bg-umbrella-red *,
+[class*="bg-red"] * {
+  color: #FFFFFF !important;
+}

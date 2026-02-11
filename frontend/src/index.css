@@ -1,0 +1,309 @@
+@import "tailwindcss";
+
+@keyframes scanLine {
+  0% {
+    top: 0%;
+    opacity: 0.1;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+
+  100% {
+    top: 100%;
+    opacity: 0.1;
+  }
+}
+
+.animate-scan {
+  animation: scanLine 2s linear infinite;
+  background: linear-gradient(to bottom, transparent, #ef4444, transparent);
+  height: 2px;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  z-index: 10;
+}
+
+
+html {
+  font-size: 125%;
+}
+
+:root {
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  line-height: 1.5;
+  font-weight: 700;
+  /* Miedinger Bold / Umbrella Corp Style */
+
+  color-scheme: light;
+  color: #000000;
+  background-color: #FFFFFF;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --color-umbrella-red: #DC0000;
+  --color-umbrella-accent: #FF0000;
+  --color-umbrella-white: #FFFFFF;
+  --color-umbrella-silver: #666666;
+  --color-umbrella-black: #000000;
+  --color-umbrella-dark: #f5f5f5;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-content: center;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #FFFFFF;
+  color: #000000;
+}
+
+#root {
+  width: 100%;
+}
+
+button {
+  @apply transition-all duration-200 active:scale-95 touch-manipulation;
+}
+
+.umbrella-bg {
+  background-image: url("/umbrella-bg.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: min(70vw, 70vh);
+  background-attachment: fixed;
+  mix-blend-mode: multiply;
+  opacity: 0.03;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #DC0000;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #FF0000;
+}
+
+/* ENFORCE PURE BLACK TEXT GLOBALLY (EXCEPT NAV) */
+body *:not(header *):not(header) {
+  color: #000000;
+}
+
+main *,
+footer *,
+[role="dialog"] *,
+.fixed.inset-0:not(header *) * {
+  color: #000000 !important;
+}
+
+svg:not(header *) {
+  color: #000000 !important;
+}
+
+/* DYNAMIC HOVER: FLIP BLACK TEXT TO WHITE ON DARK RED/BLACK BACKGROUNDS */
+*:hover[class*="hover:bg-umbrella-red"],
+*:hover[class*="hover:bg-black"],
+*:hover[class*="hover:bg-red-500"],
+*:hover[class*="hover:bg-red-600"],
+*:hover[class*="hover:bg-red-700"],
+*:hover[class*="hover:bg-red-800"],
+*:hover[class*="hover:bg-red-900"],
+*:hover[class*="hover:bg-slate-900"],
+*:hover[class*="hover:bg-slate-800"],
+button[class*="hover:bg-black"]:hover,
+button[class*="hover:bg-umbrella-red"]:hover {
+  color: #FFFFFF !important;
+}
+
+*:hover[class*="hover:bg-umbrella-red"] *,
+*:hover[class*="hover:bg-black"] *,
+*:hover[class*="hover:bg-red-500"] *,
+*:hover[class*="hover:bg-red-600"] *,
+*:hover[class*="hover:bg-red-700"] *,
+*:hover[class*="hover:bg-red-800"] *,
+*:hover[class*="hover:bg-red-900"] *,
+*:hover[class*="hover:bg-slate-900"] *,
+*:hover[class*="hover:bg-slate-800"] *,
+button[class*="hover:bg-black"]:hover *,
+button[class*="hover:bg-umbrella-red"]:hover * {
+  color: #FFFFFF !important;
+}
+
+
+
+/* RED BUTTONS ALWAYS HAVE WHITE TEXT - MAXIMUM PRIORITY */
+button.bg-umbrella-red,
+button.bg-umbrella-red span,
+button.bg-umbrella-red svg,
+button.bg-umbrella-red *,
+button[class*="bg-red"],
+button[class*="bg-red"] span,
+button[class*="bg-red"] svg,
+button[class*="bg-red"] *,
+.bg-umbrella-red,
+.bg-umbrella-red *,
+a.bg-umbrella-red,
+a.bg-umbrella-red * {
+  color: #FFFFFF !important;
+}
+
+/* White backgrounds */
+.bg-white,
+.bg-black {
+  background-color: #FFFFFF !important;
+}
+
+/* Light gray backgrounds */
+.bg-slate-50,
+.bg-slate-100,
+.bg-gray-50,
+.bg-gray-100,
+.bg-umbrella-dark {
+  background-color: #f9fafb !important;
+}
+
+/* Borders */
+.border-slate-200,
+.border-gray-200 {
+  border-color: #e5e7eb !important;
+}
+
+/* Input fields */
+input,
+textarea,
+select {
+  background-color: #f9fafb !important;
+  color: #000000 !important;
+  border-color: #d1d5db !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #9ca3af !important;
+}
+
+/* Status badges - light backgrounds with dark text */
+.bg-blue-50,
+.bg-blue-100 {
+  background-color: #dbeafe !important;
+}
+
+.bg-amber-50,
+.bg-amber-100 {
+  background-color: #fef3c7 !important;
+}
+
+.bg-emerald-50,
+.bg-emerald-100 {
+  background-color: #d1fae5 !important;
+}
+
+.bg-red-50,
+.bg-red-100 {
+  background-color: #fee2e2 !important;
+}
+
+/* Navigation hover - subtle glow */
+nav a:hover {
+  text-shadow:
+    0 0 10px rgba(186, 0, 0, 0.3),
+    0 0 20px rgba(186, 0, 0, 0.2) !important;
+  transition: text-shadow 0.3s ease-in-out;
+}
+
+nav a {
+  transition: text-shadow 0.3s ease-in-out;
+}
+
+/* ALICE Status badges - force light backgrounds */
+.bg-slate-800,
+.bg-slate-900,
+.bg-emerald-900,
+.bg-amber-900,
+.bg-blue-900 {
+  background-color: #f9fafb !important;
+  border: 2px solid currentColor !important;
+}
+
+/* Status text colors - make them vibrant */
+.text-emerald-300,
+.text-emerald-400 {
+  color: #059669 !important;
+}
+
+.text-amber-300,
+.text-amber-400 {
+  color: #d97706 !important;
+}
+
+.text-blue-300,
+.text-blue-400 {
+  color: #2563eb !important;
+}
+
+/* Plus buttons and action buttons - always visible */
+button.bg-umbrella-red,
+button[class*="bg-red"],
+.bg-umbrella-red button,
+a.bg-umbrella-red {
+  background-color: #DC0000 !important;
+  color: #FFFFFF !important;
+  opacity: 1 !important;
+  font-weight: 900 !important;
+}
+
+button.bg-umbrella-red *,
+button[class*="bg-red"] *,
+.bg-umbrella-red button *,
+a.bg-umbrella-red * {
+  color: #FFFFFF !important;
+  font-weight: 900 !important;
+}
+
+/* Hover states for buttons */
+button:hover.bg-umbrella-red,
+button:hover[class*="bg-red"] {
+  background-color: #FF0000 !important;
+}
+
+/* Disabled buttons - white text */
+button:disabled,
+button[disabled] {
+  color: #FFFFFF !important;
+}
+
+button:disabled *,
+button[disabled] * {
+  color: #FFFFFF !important;
+}
+
+/* Remove grayscale from disabled buttons */
+button:disabled,
+button[disabled] {
+  filter: none !important;
+}
+
+/* Keep red buttons red when disabled */
+button:disabled.bg-umbrella-red,
+button[disabled].bg-umbrella-red,
+button:disabled[class*="bg-red"],
+button[disabled][class*="bg-red"] {
+  background-color: #DC0000 !important;
+  opacity: 0.6 !important;
+}

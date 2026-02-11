@@ -73,7 +73,7 @@ button {
 }
 
 .umbrella-bg {
-  background-image: url("/umbrella-bg.png");
+  background-image: url("./assets/umbrella-bg.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: min(70vw, 70vh);

@@ -12,6 +12,7 @@ import Login from './pages/Login';
 import UserManagement from './pages/UserManagement';
 import MachineControl from './pages/MachineControl';
 import { API_BASE } from './apiConfig';
+import umbrellaLogo from './assets/umbrella-logo.png';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -77,7 +78,7 @@ const Navigation = ({ robotStatus, onLogout }) => {
       <div className="w-full px-4 lg:px-8 py-2 flex items-center justify-between gap-4 flex-wrap">
         {/* Left Side: Logo (Shrinks on LG) */}
         <div className="flex items-center gap-4 flex-shrink-0">
-          <img src="/umbrella-logo.png" alt="Umbrella Corp" className="h-8 lg:h-10 object-contain" />
+          <img src={umbrellaLogo} alt="Umbrella Corp" className="h-8 lg:h-10 object-contain" />
         </div>
 
 

@@ -56,6 +56,16 @@ const Kiosk = () => {
 
     const handleError = (err) => {
         console.error(err);
+        if (err?.name === 'NotAllowedError' || err?.name === 'PermissionDeniedError') {
+            setErrorState("Camera access denied. Please allow camera permissions in your browser.");
+        } else if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') {
+            setErrorState("Security Error: Webcam requires an HTTPS connection.");
+        }
+    };
+
+    const setErrorState = (msg) => {
+        setStatus('error');
+        setMessage(msg);
     };
 
     const dispenseOrder = async (orderId) => {

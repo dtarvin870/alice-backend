@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { ShieldCheck, AlertCircle } from 'lucide-react';
+import { ShieldCheck, AlertCircle, Scan, Keyboard } from 'lucide-react';
+import { Scanner } from '@yudiel/react-qr-scanner';
 import { API_BASE } from '../apiConfig';
 
 const Login = ({ onLogin }) => {
     const [accessCode, setAccessCode] = useState('');
     const [error, setError] = useState('');
+    const [mode, setMode] = useState('pin'); // pin or qr
 
     const loginUser = async (code) => {
         try {
@@ -31,6 +33,22 @@ const Login = ({ onLogin }) => {
         }
     };
 
+    const handleQRScan = (detectedCodes) => {
+        if (detectedCodes && detectedCodes.length > 0) {
+            const data = detectedCodes[0].rawValue;
+            loginUser(data);
+        }
+    };
+
+    const handleQRError = (err) => {
+        console.error(err);
+        if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') {
+            setError("Security Error: Webcam login requires an HTTPS connection.");
+        } else {
+            setError("Camera error. Please ensure permissions are granted.");
+        }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         loginUser(accessCode);
@@ -51,26 +69,60 @@ const Login = ({ onLogin }) => {
                     </div>
                 )}
 
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-6">
-                        <input
-                            type="password"
-                            value={accessCode}
-                            onChange={(e) => setAccessCode(e.target.value)}
-                            className="w-full text-center text-2xl font-mono font-black tracking-[0.3em] text-black bg-slate-50 border-2 border-slate-200 py-4 px-4 rounded-sm focus:outline-none focus:border-red-600 transition-colors"
-                            placeholder="••••••••"
-                            autoFocus
-                            maxLength={8}
-                        />
-                    </div>
-
+                <div className="flex justify-center gap-4 mb-8">
                     <button
-                        type="submit"
-                        className="w-full bg-umbrella-red hover:bg-red-700 text-white font-black uppercase tracking-widest py-4 rounded-sm transition-all active:scale-95 shadow-lg text-sm border-2 border-black"
+                        onClick={() => { setMode('pin'); setError(''); }}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-sm text-xs font-black uppercase tracking-widest transition-all ${mode === 'pin' ? 'bg-black text-white' : 'bg-slate-100 text-slate-400 hover:bg-slate-200'}`}
                     >
-                        Initialize Session
+                        <Keyboard className="w-4 h-4" /> PIN Entry
                     </button>
-                </form>
+                    <button
+                        onClick={() => { setMode('qr'); setError(''); }}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-sm text-xs font-black uppercase tracking-widest transition-all ${mode === 'qr' ? 'bg-black text-white' : 'bg-slate-100 text-slate-400 hover:bg-slate-200'}`}
+                    >
+                        <Scan className="w-4 h-4" /> Badge Scan
+                    </button>
+                </div>
+
+                {mode === 'pin' ? (
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-6">
+                            <input
+                                type="password"
+                                value={accessCode}
+                                onChange={(e) => setAccessCode(e.target.value)}
+                                className="w-full text-center text-2xl font-mono font-black tracking-[0.3em] text-black bg-slate-50 border-2 border-slate-200 py-4 px-4 rounded-sm focus:outline-none focus:border-red-600 transition-colors"
+                                placeholder="••••••••"
+                                autoFocus
+                                maxLength={8}
+                            />
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="w-full bg-umbrella-red hover:bg-red-700 text-white font-black uppercase tracking-widest py-4 rounded-sm transition-all active:scale-95 shadow-lg text-sm border-2 border-black"
+                        >
+                            Initialize Session
+                        </button>
+                    </form>
+                ) : (
+                    <div className="space-y-6">
+                        <div className="w-full aspect-square bg-slate-900 rounded-sm overflow-hidden relative border-4 border-black group">
+                            <Scanner
+                                onScan={handleQRScan}
+                                onError={handleQRError}
+                                styles={{
+                                    container: { width: '100%', height: '100%' },
+                                    video: { width: '100%', height: '100%', objectFit: 'cover' }
+                                }}
+                            />
+                            <div className="absolute inset-0 border-2 border-umbrella-red/30 m-8 rounded-lg pointer-events-none group-hover:border-umbrella-red/60 transition-colors"></div>
+                        </div>
+                        <p className="text-[10px] font-mono font-bold text-center text-slate-400 uppercase">
+                            Present your credentials to the optical sensor
+                        </p>
+                    </div>
+                )}
             </div>
         </div>
     );
